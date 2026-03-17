@@ -32,8 +32,9 @@ export default async function ProductPage({
 }) {
   const { id } = await params;
   const product = products.find((p) => p.id === Number(id)) ?? products[0];
-  const vatAmount = Math.round(product.priceNum * 0.2);
-  const exclVat = product.priceNum - vatAmount;
+  const vatRate = 0.25; // 25% Swedish moms (Mervärdesskattelagen)
+  const exclVat = Math.round(product.priceNum / (1 + vatRate));
+  const vatAmount = product.priceNum - exclVat;
 
   return (
     <div className="min-h-screen">
